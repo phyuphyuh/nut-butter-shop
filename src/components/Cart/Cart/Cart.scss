@@ -1,0 +1,100 @@
+@use '../../../styles/global.scss' as *;
+
+.cart {
+  ul {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font: 14px $primaryFont;
+    display: flex;
+    flex-direction: column;
+  }
+
+  li.none {
+    margin-top: 5px;
+    margin-bottom: -35px;
+    border-bottom: none;
+    z-index: 0;
+  }
+
+  .cart-item {
+    z-index: 1;
+    background-color: $whiteSmoke;
+
+    .cart-img {
+      float: left;
+      width: 45px;
+      img {
+        width: 100%;
+      }
+    }
+
+    .cart-name {
+      float: left;
+      width: 70px;
+      margin: 20px 5px 20px 10px;
+    }
+
+    .cart-quantity {
+      float: left;
+      font: 15px $textFont;
+      margin: 20px 5px 20px 10px;
+    }
+
+    .cart-price {
+      float: left;
+      font: 15px $textFont;
+      margin: 20px 10px 20px 5px;
+    }
+
+    .remove {
+      float: left;
+      margin: 20px 0px 20px 10px;
+      cursor: pointer;
+      font: 18px $textFont;
+      opacity: 0.4;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .cart-totals {
+    font: 14px $primaryFont;
+    text-align: right;
+    margin-top: 1rem;
+
+    div {
+      margin-bottom: 0.25rem;
+    }
+
+    div:last-child {
+      font-weight: bold;
+    }
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font: 16px $primaryFont;
+    background-color: $royalBlue;
+    border: 2px solid $royalBlue;
+    color: $whiteSmoke;
+    border-radius: 5px;
+
+    &:hover {
+      color: $lightBlue;
+      background-color: transparent;
+      border-color: $royalBlue;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

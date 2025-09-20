@@ -1,0 +1,166 @@
+@use '../../../styles/global.scss' as *;
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 60px;
+  margin-top: 30px;
+
+	@media (max-width: 767px) {
+		margin-top: 20px;
+    flex-direction: column;
+    align-items: center;
+	}
+
+	#navlogo {
+		text-align: center;
+
+		.logo {
+			font: 50px $logoFont;
+			color: $persianBlue;
+		}
+		.tagline {
+			font: 18px $logoFont;
+			color: $grey;
+		}
+
+		@media (max-width: 767px) {
+			.logo {
+				font-size: 50px;
+			}
+			.tagline {
+				font-size: 16px;
+			}
+		}
+  }
+
+  .footer-links {
+    flex: 0 1 33%;
+
+    @media (max-width: 767px) {
+      display: none;
+    }
+
+    ul {
+      list-style: none;
+      font: 20px $navFont;
+      margin-right: 50px;
+      text-align: right;
+
+      li {
+        padding-bottom: 10px;
+
+        a {
+          color: $lightGrey;
+          border-bottom: 1px solid $grey;
+          opacity: 0.85;
+        }
+
+        &:hover a {
+          color: $grey;
+          border-bottom: 1px solid $tanOrange;
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .footer-logo {
+    text-align: center;
+
+		.logo {
+			font: 50px $logoFont;
+			color: $persianBlue;
+		}
+		.tagline {
+			font: 18px $logoFont;
+			color: $grey;
+		}
+
+		@media (max-width: 767px) {
+			.logo {
+				font-size: 50px;
+			}
+			.tagline {
+				font-size: 16px;
+			}
+		}
+    flex: 0 1 36%;
+
+    @media (max-width: 767px) {
+      flex: 0 1 100%;
+      order: 2;
+      margin-bottom: -20px;
+    }
+
+    .logo {
+      font-size: 50px;
+
+      @media (max-width: 992px) {
+        font-size: 40px;
+      }
+    }
+
+    .tagline {
+      font-size: 14px;
+    }
+
+    .copyright {
+      font: 14px $crFont;
+      color: $grey;
+      margin-top: 20px;
+
+      @media (max-width: 992px) {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .subscribe {
+    flex: 0 1 30%;
+    margin-left: 50px;
+
+    @media (max-width: 767px) {
+      flex: 0 1 100%;
+      order: 1;
+      margin-bottom: 30px;
+      background-color: $whiteSmoke;
+      width: 100%;
+      margin-left: 0;
+      height: 180px;
+      text-align: center;
+    }
+
+    .footer-email {
+      font: 12px $navFont;
+      padding: 7px;
+      width: 200px;
+
+      @media (max-width: 767px) {
+        margin-top: 40px;
+      }
+    }
+
+    .footer-email-error {
+      font: 14px $textFont;
+      color: $tanOrange;
+      margin: 0;
+    }
+
+    button {
+      @extend button;
+      font: 14px $primaryFont;
+      padding: 7px;
+      background-color: $grey;
+      border-color: $grey;
+      margin-top: 20px;
+
+      &:hover {
+        border-color: $persianBlue;
+        color: $grey;
+      }
+    }
+  }
+}
