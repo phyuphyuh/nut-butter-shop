@@ -1,10 +1,10 @@
 # Blue Jar Folks – *Modernized E-Commerce Site*
 
-A modernized version of my final project from the *Introduction to JavaScript* course at **USC (2019)**. Originally built with vanilla JavaScript, HTML5, and CSS, this project has been fully rebuilt with modern web technologies: **React, Vite, TypeScript, Stripe, Auth0,** and deployed on **Netlify**.
+A modernized version of my final project from the *Interactive Web Development* course at **USC (2019)**. Originally built with vanilla JavaScript, HTML5, and CSS, this project has been fully rebuilt with modern web technologies: **React, Vite, TypeScript, Stripe, Auth0,** and deployed on **Netlify**.
 
 ## Overview
 
-**Blue Jar Folks** is a ficticious small-batch nut and seed butter brand I made up. The site is essentially the brand's website and showcases products, provides detailed *“About”* sections, and allows users to add items to a cart and checkout securely via **Stripe**.
+**Blue Jar Folks** is a fictitious small-batch nut and seed butter brand I created. This site serves as the brand’s online storefront, showcasing products, providing detailed *“About”* sections, and enabling users to add items to a cart and checkout securely via **Stripe**.
 
 This project demonstrates how to take a classic JS project and modernize it for the current web ecosystem.
 
