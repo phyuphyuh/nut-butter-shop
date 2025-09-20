@@ -1,69 +1,27 @@
-# React + TypeScript + Vite
+Blue Jar Folks – Modernized E-Commerce Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modernized version of my final project from the Introduction to JavaScript course at USC (2019). Originally built with vanilla JavaScript, HTML5, and CSS, this project has been fully rebuilt with modern web technologies: React, Vite, TypeScript, Stripe, Auth0, and deployed on Netlify.
 
-Currently, two official plugins are available:
+Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Blue Jar Folks is a small-batch nut and seed butter brand I had made up. The site showcases products, provides detailed “About” sections, and allows users to add items to a cart and checkout securely via Stripe.
 
-## Expanding the ESLint configuration
+This project demonstrates how to take a classic JS project and modernize it for the current web ecosystem.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Features
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+React + TypeScript: Component-based architecture for scalability and maintainability.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Vite: Fast development build system.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Shopping Cart: Context API-based cart for adding/removing items.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Stripe Checkout: Secure payment processing with Stripe API.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Auth0 Integration: Optional authentication for future user accounts.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Netlify Serverless Functions: Handles server-side checkout logic and integrates with Stripe.
+
+Responsive Design: Fully mobile-friendly layout with SCSS.
+
+Deployment: Hosted on Netlify for continuous deployment.
