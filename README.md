@@ -4,7 +4,7 @@ A modernized version of my final project from the *Introduction to JavaScript* c
 
 ## Overview
 
-**Blue Jar Folks** is a ficticious small-batch nut and seed butter brand I made up. The site showcases products, provides detailed *“About”* sections, and allows users to add items to a cart and checkout securely via **Stripe**.
+**Blue Jar Folks** is a ficticious small-batch nut and seed butter brand I made up. The site is essentially the brand's website and showcases products, provides detailed *“About”* sections, and allows users to add items to a cart and checkout securely via **Stripe**.
 
 This project demonstrates how to take a classic JS project and modernize it for the current web ecosystem.
 
