@@ -1,0 +1,27 @@
+.add-btn {
+  margin-top: 0;
+  width: 100px;
+  color: black;
+  border: 2px solid black;
+  cursor: pointer;
+
+  .product-item.odd & {
+    background-color: #1bb3f9;
+
+    &:hover {
+      color: #f9f7f4;
+      background-color: transparent;
+      border-color: #f9f7f4;
+    }
+  }
+
+  .product-item.even & {
+    background-color: #fbba72;
+
+    &:hover {
+      color: #f9f7f4;
+      background-color: transparent;
+      border-color: #f9f7f4;
+    }
+  }
+}

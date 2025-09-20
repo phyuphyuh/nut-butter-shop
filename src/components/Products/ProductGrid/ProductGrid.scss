@@ -1,0 +1,31 @@
+.product-grid {
+  width: 80%;
+  background-color: #F9C8AC;
+  margin: 0 auto;
+  padding: 40px;
+
+  @media (max-width: 992px) {
+    width: 90%;
+    padding: 30px;
+  }
+
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .products-row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    margin: 20px auto;
+    padding: 10px 40px;
+    gap: 1rem;
+
+    @media (max-width: 992px) {
+      justify-content: center;
+    }
+  }
+}

@@ -1,0 +1,129 @@
+.product-item {
+  flex: 0 1 31%;
+  text-align: center;
+  border: 2px solid black;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: 30px;
+
+  .product-img {
+    width: 100%;
+    display: block;
+  }
+
+  .description {
+    padding: 20px;
+    color: #f9f7f4;
+
+    .name {
+      font: 22px 'Rufina', serif;
+      margin: 15px 0 22px;
+      text-shadow:
+        -1.7px -1.7px 0 #000,
+        1.7px -1.7px 0 #000,
+        -1.7px 1.7px 0 #000,
+        1.7px 1.7px 0 #000;
+    }
+
+    .size {
+      font: 16px 'Quattrocento Sans', sans-serif;
+      margin: -10px 0 20px;
+    }
+
+    .price {
+      font: 18px 'Quattrocento Sans', sans-serif;
+      margin-bottom: 20px;
+    }
+  }
+
+  &.odd .description {
+    background-color: #686e7e;
+  }
+
+  &.even .description {
+    background-color: #1730c1;
+  }
+
+  @media (max-width: 992px) {
+    flex: 0 1 48%;
+  }
+
+  @media (max-width: 480px) {
+    flex: 0 1 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+/* Nut overlay styles, mapped to metadata.category */
+.nut-img {
+  position: absolute;
+  transition: transform 0.15s linear;
+}
+
+.almond {
+  width: 180%;
+  top: 70px;
+  left: -90px;
+  transform: translate(0, -550px);
+
+  .product-item:hover & {
+    transform: rotate(-100deg) translate(0, 0);
+  }
+}
+
+.cashew {
+  width: 95%;
+  top: 70px;
+  left: 60px;
+  transform: rotate(10deg) translate(-450px);
+
+  .product-item:hover & {
+    transform: rotate(-80deg) translate(0);
+  }
+}
+
+.peanut {
+  width: 120%;
+  top: -50px;
+  right: -60px;
+  transform: rotate(-80deg) translate(300px, 40px);
+
+  .product-item:hover & {
+    transform: rotate(-10deg) translate(0, 0);
+  }
+}
+
+.pecan {
+  width: 70%;
+  top: 80px;
+  left: 40px;
+  transform: translate(0, -450px);
+
+  .product-item:hover & {
+    transform: translate(0);
+  }
+}
+
+.sunflower {
+  width: 90%;
+  bottom: 140px;
+  left: 20px;
+  transform: translate(350px, 0);
+
+  .product-item:hover & {
+    transform: translate(0, 0);
+  }
+}
+
+.sesame {
+  width: 80%;
+  top: 60px;
+  right: 10px;
+  transform: rotate(90deg) translate(0, -350px);
+
+  .product-item:hover & {
+    transform: rotate(180deg) translate(0);
+  }
+}

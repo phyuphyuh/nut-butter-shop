@@ -32,7 +32,6 @@ const HomePage: React.FC = () => {
           <span style={{ color: '#e0966c' }}>seed butters</span> using real, nutrient-dense ingredients
         </p>
         <div className="products-img">
-          {/* <img src={cashewButterImg} alt="Cashew Butter" /> */}
           <ProductsImageSlider />
         </div>
         <Link className="products-btn" to="/shop">

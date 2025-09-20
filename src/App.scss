@@ -30,3 +30,23 @@ a {
   background-color: rgba(0,0,0,.3);
   -webkit-box-shadow: 0 0 1px rgba(255,255,255,.3);
 }
+
+button {
+	margin-top: 40px;
+	cursor: pointer;
+	font-family: $primaryFont;
+  font-size: 18px;
+	padding: 10px;
+	color: $whiteSmoke;
+	background-color: $royalBlue;
+	border: 2px solid;
+	border-color: $royalBlue;
+	border-radius: 5px;
+
+	&:hover {
+		color: $lightBlue;
+		background-color: transparent;
+		border: 2px solid;
+		border-color: $royalBlue;
+	}
+}

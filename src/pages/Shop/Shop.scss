@@ -1,0 +1,53 @@
+@use '../../styles/global.scss' as *;
+
+.shop-page {
+  .shop-header-img {
+    width: 80%;
+    height: 380px;
+    margin: 0 auto 30px;
+    background: url('../../assets/images/productsheader.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .shop-header {
+    text-align: center;
+    width: 80%;
+    margin: 40px auto 60px;
+
+    h1 {
+      margin: 0;
+      padding: 0;
+      font-family: $primaryFont;
+      font-size: 40px;
+    }
+
+    p {
+      margin-top: 30px;
+      font-family: $navFont;
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .shop-header-img {
+      width: 95%;
+      margin-top: -50px;
+    }
+
+    .shop-header {
+      h1 {
+        font-size: 30px;
+        margin-top: -60px;
+      }
+    }
+  }
+
+  @media (max-width: 470px) {
+    .shop-header-img,
+    .shop-header h1 {
+      margin-top: -90px;
+    }
+  }
+}
