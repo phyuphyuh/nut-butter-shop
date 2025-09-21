@@ -1,0 +1,109 @@
+@use '../../styles/global.scss' as *;
+
+.contact-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: $whiteSmoke;
+  min-height: 650px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-form {
+  width: 60%;
+  background-color: $whiteSmoke;
+  padding: 60px 60px 60px 100px;
+  border: 2.5px solid $jet;
+  border-radius: 80% 3% 90% 2% / 3% 95% 3% 90%;
+  background-image: url("../../assets/images/nuts.jpg");
+  background-size: 60%;
+  background-attachment: fixed;
+
+  h2 {
+    font: 30px $primaryFont;
+    margin: 0 0 30px;
+  }
+}
+
+.contact-form-row {
+  margin-bottom: 15px;
+}
+
+.contact-input,
+.contact-textarea {
+  padding: 8px;
+  font: 14px $primaryFont;
+  width: 75%;
+  background-color: $whiteSmoke;
+  border: 0.2px solid $lightGrey;
+
+  &::placeholder {
+    color: $royalBlue;
+    font: 14px $primaryFont;
+  }
+}
+
+.contact-textarea {
+  resize: none;
+  height: 150px;
+}
+
+.error {
+  font: 14px $textFont;
+  color: $persianBlue;
+  margin: 4px 0 0;
+}
+
+.contact-submit {
+  color: $lightBlue;
+  background-color: transparent;
+  border: 2px solid $royalBlue;
+  margin-top: 30px;
+  padding: 10px 20px;
+  font: 16px $primaryFont;
+  cursor: pointer;
+
+  &:hover {
+    color: $whiteSmoke;
+    background-color: $royalBlue;
+  }
+}
+
+.contact-confirmation {
+  text-align: center;
+  padding: 60px;
+  background: $whiteSmoke;
+  border: 2px solid $royalBlue;
+  border-radius: 12px;
+  max-width: 600px;
+
+  h2 {
+    font-family: $primaryFont;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 992px) {
+  .contact-form {
+    width: 75%;
+  }
+}
+
+@media (max-width: 767px) {
+  .contact-form {
+    width: 90%;
+    padding: 30px 30px 30px 50px;
+  }
+
+  .contact-input,
+  .contact-textarea {
+    width: 90%;
+  }
+
+  .contact-textarea {
+    height: 200px;
+  }
+}

@@ -3,8 +3,8 @@ import yumImg from '../../assets/images/yum.png';
 import jarImg from '../../assets/images/jar.png';
 import toastImg from '../../assets/images/toast.png';
 import yogurtImg from '../../assets/images/yogurt.png';
-import nutsImg from '../../assets/images/nuts.jpg';
-import chiaImg from '../../assets/images/chiabowl.jpg';
+import nutsImg from '../../assets/images/realnuts.jpg';
+import pbImg from '../../assets/images/pbsando.jpg';
 import { Link } from 'react-router-dom';
 import ProductsImageSlider from '../../components/ProductsImageSlider';
 
@@ -53,7 +53,7 @@ const HomePage: React.FC = () => {
         </div>
 
         <img className="about-img nuts" src={nutsImg} alt="assorted nuts" />
-        <img className="about-img bowl" src={chiaImg} alt="chia bowl with almond butter" />
+        <img className="about-img sando" src={pbImg} alt="pbj" />
 
         <div className="about-right">
           <h3>Nourishing and nutritious</h3>
