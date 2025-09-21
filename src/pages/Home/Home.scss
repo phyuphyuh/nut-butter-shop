@@ -128,17 +128,20 @@
   }
 
   .about-img {
-    &.jamtoast {
+    &.nuts {
       position: absolute;
       bottom: 120px;
       left: 290px;
-      width: 300px;
+      width: 250px;
+      opacity: 0.9;
     }
-    &.muffin {
+    &.bowl {
       position: absolute;
       top: 125px;
-      right: 240px;
+      right: 260px;
       width: 300px;
+      filter: grayscale(50%);
+      opacity: 0.9;
     }
   }
 

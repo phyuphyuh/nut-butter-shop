@@ -3,8 +3,8 @@ import yumImg from '../../assets/images/yum.png';
 import jarImg from '../../assets/images/jar.png';
 import toastImg from '../../assets/images/toast.png';
 import yogurtImg from '../../assets/images/yogurt.png';
-import jamToastImg from '../../assets/images/jamtoast.jpg';
-import muffinImg from '../../assets/images/muffin.jpg';
+import nutsImg from '../../assets/images/nuts.jpg';
+import chiaImg from '../../assets/images/chiabowl.jpg';
 import { Link } from 'react-router-dom';
 import ProductsImageSlider from '../../components/ProductsImageSlider';
 
@@ -14,9 +14,9 @@ const HomePage: React.FC = () => {
       {/* Header Section */}
       <div className="home-header">
         <div className="home-header-text">
-          <span style={{ color: '#A5AEC6' }}>insanely</span><br />
+          <span style={{ color: 'var(--lightGrey)' }}>insanely</span><br />
           cravable, sustainable, <br />
-          <span style={{ color: '#1BB3F9' }}>spreadable, dippable</span>
+          <span style={{ color: 'var(--lightBlue)' }}>spreadable, dippable</span>
         </div>
         <img className="header-img yum" src={yumImg} alt="yum" />
         <img className="header-img jar" src={jarImg} alt="jar" />
@@ -28,8 +28,8 @@ const HomePage: React.FC = () => {
       <div className="home-products">
         <hr className="solidline" />
         <p>
-          we make small-batch <span style={{ color: '#f99628' }}>nut</span> and{' '}
-          <span style={{ color: '#e0966c' }}>seed butters</span> using real, nutrient-dense ingredients
+          we make small-batch <span style={{ color: 'var(--orange)' }}>nut</span> and{' '}
+          <span style={{ color: 'var(--tanOrange)' }}>seed butters</span> using real, nutrient-dense ingredients
         </p>
         <div className="products-img">
           <ProductsImageSlider />
@@ -52,8 +52,8 @@ const HomePage: React.FC = () => {
           </ul>
         </div>
 
-        <img className="about-img jamtoast" src={jamToastImg} alt="PB&J toast" />
-        <img className="about-img muffin" src={muffinImg} alt="Muffin" />
+        <img className="about-img nuts" src={nutsImg} alt="assorted nuts" />
+        <img className="about-img bowl" src={chiaImg} alt="chia bowl with almond butter" />
 
         <div className="about-right">
           <h3>Nourishing and nutritious</h3>

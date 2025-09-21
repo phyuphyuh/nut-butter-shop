@@ -1,0 +1,275 @@
+@use '../../styles/global.scss' as *;
+
+.about {
+  header.about-header {
+    text-align: center;
+    width: 80%;
+    margin: 40px auto 60px;
+
+    h1 {
+      margin: 0;
+      padding: 0;
+      font: 40px $primaryFont;
+    }
+
+    p {
+      margin-top: 30px;
+      font: 20px $navFont;
+    }
+  }
+
+  .about-header-img {
+    width: 80%;
+    height: 380px;
+    margin: 0 auto 30px;
+    background: url('../../assets/images/aboutheader.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  main.about-container {
+    width: 80%;
+    height: 1980px;
+    margin: 0 auto;
+    padding: 40px;
+    background: linear-gradient(90deg, $whiteSmoke 50%, $royalBlue 50%);
+    position: relative;
+
+    h3 {
+      margin: 0 0 30px;
+      padding: 0;
+      font: 30px $primaryFont;
+    }
+
+    p, ul {
+      line-height: 22px;
+      font: 18px $textFont;
+    }
+
+    em {
+      font-style: italic;
+      font-weight: 600;
+    }
+  }
+
+  .whiteside {
+    p, h3 {
+      text-align: right;
+    }
+
+    strong {
+      font-weight: 700;
+      color: $persianBlue;
+    }
+  }
+
+  .blueside {
+    color: $whiteSmoke;
+
+    p, h3 {
+      text-align: left;
+    }
+
+    strong {
+      font-weight: 700;
+      color: $orange;
+    }
+
+    em {
+      color: $orange;
+      font-weight: 600;
+    }
+  }
+
+  .ingredients {
+    position: absolute;
+    top: 60px;
+    left: 15%;
+    text-align: left;
+    width: 26%;
+  }
+
+  .ingredients2 {
+    position: absolute;
+    top: 560px;
+    right: 10%;
+    text-align: left;
+    width: 34%;
+  }
+
+  .certified {
+    position: absolute;
+    top: 800px;
+    left: 18%;
+    text-align: left;
+    width: 25%;
+  }
+
+  .satisfy {
+    position: absolute;
+    top: 1020px;
+    right: 10%;
+    text-align: left;
+    width: 210px;
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  .staple {
+    position: absolute;
+    top: 1620px;
+    left: 18%;
+    text-align: left;
+    width: 30%;
+  }
+
+  .image-container {
+    width: 27%;
+    position: absolute;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 8px;
+
+    &.about1 { //blue bowl
+      top: 100px;
+      right: 15%;
+    }
+
+    &.about3 { //cashew
+      top: 470px;
+      left: 10%;
+    }
+
+    &.about2 { //cookie
+      top: 760px;
+      right: 21%;
+    }
+
+    &.about4 { //oats
+      top: 1190px;
+      left: 18%;
+    }
+
+    &.about5 { //ic
+      top: 1620px;
+      right: 13%;
+    }
+  }
+
+  .images {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+
+  @media (max-width: 992px) {
+    .about-header-img {
+      width: 90%;
+      margin-top: -20px;
+    }
+
+    header.about-header h1 {
+      font-size: 30px;
+      margin-top: -30px;
+    }
+
+    main.about-container {
+      width: 90%;
+      padding: 30px;
+
+      h3 {
+        font-size: 25px;
+      }
+    }
+
+    .image-container {
+      width: 35%;
+
+      &.about1, &.about5 {
+        right: 10%;
+      }
+
+      &.about2 {
+        right: 13%;
+      }
+
+      &.about4 {
+        left: 13%;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .about-header-img {
+      width: 90%;
+      margin-top: -20px;
+    }
+
+    header.about-header h1 {
+      font-size: 30px;
+      margin-top: -30px;
+    }
+
+    main.about-container {
+      width: 100%;
+      padding: 10px;
+
+      p, ul {
+        font-size: 16px;
+      }
+    }
+  }
+
+  @media (max-width: 535px) {
+    .satisfy {
+      right: 8%;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .about-header-img, header.about-header h1 {
+      margin-top: -70px;
+    }
+
+    main.about-container {
+      height: 2050px;
+    }
+
+    .image-container {
+      width: 44%;
+      height: 160px; // Smaller height on mobile
+
+      &.about1, &.about2, &.about5 {
+        right: 13px;
+      }
+
+      &.about3 {
+        top: 500px;
+        left: 13px;
+      }
+
+      &.about4 {
+        left: 13px;
+      }
+    }
+
+    .satisfy {
+      right: 13px;
+    }
+
+    .ingredients, .certified {
+      width: 180px;
+      left: 25px;
+    }
+  }
+}
+}

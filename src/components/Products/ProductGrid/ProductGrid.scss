@@ -1,6 +1,8 @@
+@use '../../../styles/global.scss' as *;
+
 .product-grid {
   width: 80%;
-  background-color: #F9C8AC;
+  background-color: $tan;
   margin: 0 auto;
   padding: 40px;
 
