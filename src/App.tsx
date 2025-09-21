@@ -8,7 +8,7 @@ import Home from './pages/Home/Home';
 import Shop from './pages/Shop/Shop';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
-import Success from './pages/Success';
+import Success from './pages/Success/Success';
 // import NotFound from './pages/NotFound';
 import './App.scss';
 

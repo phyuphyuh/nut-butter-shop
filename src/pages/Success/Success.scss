@@ -1,0 +1,27 @@
+@use '../../styles/global.scss' as *;
+
+.success-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: $whiteSmoke;
+  min-height: 450px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .success-confirmation {
+    text-align: center;
+    padding: 60px;
+    background: $whiteSmoke;
+    border: 2px solid $royalBlue;
+    border-radius: 12px;
+    max-width: 600px;
+
+    h2 {
+      font-family: $primaryFont;
+      margin-bottom: 10px;
+    }
+  }
+}
