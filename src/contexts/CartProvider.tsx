@@ -28,11 +28,13 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     }
 
     case "UPDATE_QUANTITY": {
-      const updatedItems = state.items.map(item =>
-        item.id === action.payload.id
-          ? { ...item, quantity: action.payload.quantity }
-          : item
-      );
+      const updatedItems = state.items
+        .map(item =>
+          item.id === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        )
+        .filter(item => item.quantity > 0); // remove if 0
       return { ...state, items: updatedItems, ...calculateTotals(updatedItems) };
     }
 

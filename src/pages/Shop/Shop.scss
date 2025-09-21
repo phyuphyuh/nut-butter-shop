@@ -1,5 +1,20 @@
 @use '../../styles/global.scss' as *;
 
+.loading-products {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: $grey;
+  text-align: center;
+  margin: 4rem auto;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
 .shop-page {
   .shop-header-img {
     width: 80%;

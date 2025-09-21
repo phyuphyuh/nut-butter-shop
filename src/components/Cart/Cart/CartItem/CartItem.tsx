@@ -10,21 +10,37 @@ export const CartItem: React.FC<Props> = ({ item }) => {
   const { dispatch } = useCart();
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        marginBottom: '1rem',
-        gap: '0.5rem',
-      }}
-    >
-      <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'cover' }} />
-      <div style={{ flexGrow: 1 }}>
-        <div>{item.name}</div>
-        <div>Qty: {item.quantity}</div>
-        <div>${(item.price / 100).toFixed(2)}</div>
+    <li className='cart-item'>
+      <img className='cart-img' src={item.image} alt={item.name} />
+      <div>
+        <div className='cart-name'>{item.name}</div>
+        <div className="cart-quantity">
+          <button
+            onClick={() =>
+              dispatch({
+                type: "UPDATE_QUANTITY",
+                payload: { id: item.id, quantity: Math.max(0, item.quantity - 1) },
+              })
+            }
+          >
+            –
+          </button>
+
+          <span>{item.quantity}</span>
+
+          <button
+            onClick={() =>
+              dispatch({ type: "UPDATE_QUANTITY", payload: { id: item.id, quantity: item.quantity + 1 } })
+            }
+          >
+            +
+          </button>
+        </div>
       </div>
-      <button onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}>×</button>
-    </div>
+      <div>
+        <div className='cart-price'>${(item.price / 100).toFixed(2)}</div>
+        <span className='remove-item' onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}>REMOVE</span>
+      </div>
+    </li>
   );
 };

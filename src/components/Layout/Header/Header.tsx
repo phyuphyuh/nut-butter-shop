@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CartIcon from '../../Cart/Cart/CartIcon/CartIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import './Header.scss';
 
 const Header: React.FC = () => {
@@ -18,7 +20,6 @@ const Header: React.FC = () => {
           </Link>
         </div>
 
-        {/* CartIcon handles cart dropdown internally */}
         <CartIcon />
 
         <nav className={`menu ${menuOpen ? 'responsive' : ''}`}>
@@ -29,7 +30,7 @@ const Header: React.FC = () => {
             <li><Link to="/contact">Contact</Link></li>
             <li className="icon">
               <a onClick={toggleMenu}>
-                <i className="fas fa-bars"></i>
+                <FontAwesomeIcon icon={faBars} />
               </a>
             </li>
           </ul>

@@ -36,32 +36,41 @@ const Cart: React.FC = () => {
 
   // Use totals from context
   const { total } = state;
-  const tax = total * 0.095;
-  const shipping = 799; // in cents ($7.99)
-  const grandTotal = total + tax + shipping;
+  // const tax = total * 0.095;
+  // const shipping = 799; // in cents ($7.99)
+  // const grandTotal = total + tax + shipping;
 
   return (
     <div className="cart">
-      {state.items.length === 0 ? (
-        <div>Your cart is empty.</div>
-      ) : (
-        state.items.map(item => <CartItem key={item.id} item={item} />)
-      )}
+      <ul className="cart-list">
+        {state.items.length === 0 ? (
+          <li className='none'>Your cart is empty.</li>
+        ) : (
+          state.items.map(item => <CartItem key={item.id} item={item} />)
+        )}
+      </ul>
 
-      <div className="cart-totals" style={{ marginTop: '1rem' }}>
-        <div>Subtotal: ${(total / 100).toFixed(2)}</div>
-        <div>Tax: ${(tax / 100).toFixed(2)}</div>
-        <div>Shipping: ${(shipping / 100).toFixed(2)}</div>
-        <div style={{ fontWeight: 'bold' }}>Total: ${(grandTotal / 100).toFixed(2)}</div>
+      <div className="cart-totals">
+        <span>Subtotal:</span>
+        <span>${(total / 100).toFixed(2)}</span>
       </div>
 
-      <button
-        onClick={handleCheckout}
-        disabled={state.items.length === 0}
-        style={{ marginTop: '1rem', padding: '0.5rem 1rem' }}
-      >
-        Checkout with Stripe
-      </button>
+      <div className='cart-btns'>
+        <button
+          className="clear-cart"
+          onClick={() => dispatch({ type: 'CLEAR_CART' })}
+          disabled={state.items.length === 0}
+        >
+          Clear Cart
+        </button>
+        <button
+          className="checkout"
+          onClick={handleCheckout}
+          disabled={state.items.length === 0}
+        >
+          Checkout
+        </button>
+      </div>
     </div>
   );
 };

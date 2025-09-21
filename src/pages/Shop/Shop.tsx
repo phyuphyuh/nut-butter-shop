@@ -24,7 +24,7 @@ const Shop: React.FC = () => {
     fetchProducts();
   }, []);
 
-  if (loading) return <div>Loading products...</div>;
+  if (loading) return <div className='loading-products'>Loading products...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
