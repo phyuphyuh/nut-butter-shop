@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import CartIcon from '../../Cart/Cart/CartIcon/CartIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -14,20 +14,36 @@ const Header: React.FC = () => {
     <header className="header">
       <div className="nav">
         <div className="nav-logo">
-          <Link to="/">
+          <NavLink to="/">
             <div className="logo">Blue Jar Folks</div>
             <div className="tagline">So real, it's nuts!</div>
-          </Link>
+          </NavLink>
         </div>
 
         <CartIcon />
 
         <nav className={`menu ${menuOpen ? 'responsive' : ''}`}>
           <ul>
-            <li className="highlight"><Link to="/">Home</Link></li>
-            <li><Link to="/shop">Shop</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
+            <li>
+              <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/shop" className={({ isActive }) => isActive ? 'active' : ''}>
+                Shop
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about" className={({ isActive }) => isActive ? 'active' : ''}>
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''}>
+                Contact
+              </NavLink>
+            </li>
             <li className="icon">
               <a onClick={toggleMenu}>
                 <FontAwesomeIcon icon={faBars} />

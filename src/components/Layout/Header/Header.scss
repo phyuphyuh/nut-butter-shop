@@ -72,6 +72,14 @@
             border-radius: 13%;
             opacity: 0.85;
           }
+
+          &.active {
+            color: $persianBlue;
+
+            &:after {
+              border-bottom: 2.3px solid $grey;
+            }
+          }
         }
 
         &:hover a {
