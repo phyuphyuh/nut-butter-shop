@@ -9,6 +9,25 @@ interface Props {
 export const CartItem: React.FC<Props> = ({ item }) => {
   const { dispatch } = useCart();
 
+  const handleQuantityDecrease = () => {
+    const newQuantity = Math.max(0, item.quantity - 1);
+    dispatch({
+      type: "UPDATE_QUANTITY",
+      payload: { id: item.id, quantity: newQuantity },
+    });
+  };
+
+  const handleQuantityIncrease = () => {
+    dispatch({
+      type: "UPDATE_QUANTITY",
+      payload: { id: item.id, quantity: item.quantity + 1 }
+    });
+  };
+
+  const handleRemoveItem = () => {
+    dispatch({ type: 'REMOVE_ITEM', payload: item.id });
+  };
+
   return (
     <li className='cart-item'>
       <img className='cart-img' src={item.image} alt={item.name} />
@@ -16,12 +35,9 @@ export const CartItem: React.FC<Props> = ({ item }) => {
         <div className='cart-name'>{item.name}</div>
         <div className="cart-quantity">
           <button
-            onClick={() =>
-              dispatch({
-                type: "UPDATE_QUANTITY",
-                payload: { id: item.id, quantity: Math.max(0, item.quantity - 1) },
-              })
-            }
+            onClick={handleQuantityDecrease}
+            disabled={item.quantity <= 1}
+            aria-label="Decrease quantity"
           >
             –
           </button>
@@ -29,9 +45,8 @@ export const CartItem: React.FC<Props> = ({ item }) => {
           <span>{item.quantity}</span>
 
           <button
-            onClick={() =>
-              dispatch({ type: "UPDATE_QUANTITY", payload: { id: item.id, quantity: item.quantity + 1 } })
-            }
+            onClick={handleQuantityIncrease}
+            aria-label="Increase quantity"
           >
             +
           </button>
@@ -39,7 +54,13 @@ export const CartItem: React.FC<Props> = ({ item }) => {
       </div>
       <div>
         <div className='cart-price'>${(item.price / 100).toFixed(2)}</div>
-        <span className='remove-item' onClick={() => dispatch({ type: 'REMOVE_ITEM', payload: item.id })}>REMOVE</span>
+        <button
+          className='remove-item'
+          onClick={handleRemoveItem}
+          aria-label={`Remove ${item.name} from cart`}
+        >
+          REMOVE
+        </button>
       </div>
     </li>
   );

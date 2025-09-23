@@ -44,6 +44,11 @@ const Header: React.FC = () => {
                 Contact
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/profile" className={({ isActive }) => isActive ? 'active' : ''}>
+                Profile
+              </NavLink>
+            </li>
             <li className="icon">
               <a onClick={toggleMenu}>
                 <FontAwesomeIcon icon={faBars} />

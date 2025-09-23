@@ -2,6 +2,16 @@ import { Handler } from '@netlify/functions';
 import Stripe from 'stripe';
 import type { CartItem } from '../../src/types/cart';
 
+interface CheckoutRequest {
+  items: CartItem[];
+  user?: {
+    id: string;
+    email: string;
+    name?: string;
+  };
+  guestEmail?: string;
+}
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-08-27.basil',
 });
@@ -12,22 +22,51 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    const { items } = JSON.parse(event.body || '{}') as { items: CartItem[] };
+    const { items, user, guestEmail } = JSON.parse(event.body || '{}') as CheckoutRequest;
 
     if (!items || !Array.isArray(items)) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Invalid items payload' }) };
     }
 
-    const session = await stripe.checkout.sessions.create({
+    // Determine customer email and metadata
+    const customerEmail = user?.email || guestEmail;
+    const isAuthenticated = !!user;
+
+    const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ['card'],
       line_items: items.map((item) => ({
         price: item.priceId,
         quantity: item.quantity,
       })),
       mode: 'payment',
-      success_url: `${process.env.URL}/success`,
+      success_url: `${process.env.URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.URL}/shop`,
-    });
+      metadata: {
+        isAuthenticated: isAuthenticated.toString(),
+        userId: user?.id || 'guest',
+        cartItems: JSON.stringify(items.map(item => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price
+        }))),
+      },
+    };
+
+    // Add customer email if provided
+    if (customerEmail) {
+      sessionConfig.customer_email = customerEmail;
+    }
+
+    // For authenticated users, add more metadata
+    if (user) {
+      sessionConfig.metadata = {
+        ...sessionConfig.metadata,
+        userName: user.name || '',
+      };
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return {
       statusCode: 200,
@@ -35,7 +74,10 @@ export const handler: Handler = async (event) => {
         'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || '*',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ sessionId: session.id }),
+      body: JSON.stringify({
+        sessionId: session.id,
+        isAuthenticated,
+      }),
     };
   } catch (error) {
     console.error('Error creating checkout session:', error);
