@@ -34,8 +34,8 @@
     }
 
     .header-actions {
-      position: absolute;
-      top: -50px;
+      position: fixed;
+      top: -30px;
       right: 1rem;
       display: flex;
       align-items: end;
