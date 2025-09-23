@@ -8,15 +8,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: transparent;
     border: none;
     cursor: pointer;
     color: $royalBlue;
     font-size: 18px;
     opacity: 0.6;
-    border-radius: 4px;
     transition: all 0.3s ease;
 
     &:hover {

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, Link } from 'react-router-dom';
 import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
-import type { Order } from "../../services/orderAPI";
-import type { CartItem } from "../../types/cart";
+import { createOrder } from "../../services/orderAPI";
 import './Success.scss';
 
 const Success: React.FC = () => {
@@ -14,11 +13,14 @@ const Success: React.FC = () => {
   const sessionId = searchParams.get('session_id');
 
   useEffect(() => {
-    const createOrderFromPending = () => {
+    const createOrderFromPending = async () => {
       // Clear the cart
       dispatch({ type: "CLEAR_CART" });
 
-      if (!sessionId) return;
+      if (!sessionId || !user?.sub) {
+        console.log('Missing sessionId or user.sub:', { sessionId, userSub: user?.sub });
+        return;
+      }
 
       // Get pending order data that was saved during checkout
       const pendingOrderData = localStorage.getItem('pendingOrder');
@@ -27,33 +29,15 @@ const Success: React.FC = () => {
         try {
           const pendingOrder = JSON.parse(pendingOrderData);
 
-          // Create completed order
-          const completedOrder: Order = {
-            id: `order_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
-            userId: user?.sub || pendingOrder.email || 'guest',
-            stripeSessionId: sessionId,
-            total: pendingOrder.items.reduce((sum: number, item: CartItem) => sum + (item.price * item.quantity), 0),
-            status: 'completed',
-            createdAt: new Date().toISOString(),
-            items: pendingOrder.items,
-            customerEmail: pendingOrder.email
-          };
-
-          // Save to localStorage
-          const userId = user?.sub || pendingOrder.email || 'guest';
-          const storageKey = `user_orders_${userId}`;
-          const existingOrders = JSON.parse(localStorage.getItem(storageKey) || '[]');
-
-          // Check for duplicates
-          const orderExists = existingOrders.some((order: Order) =>
-            order.stripeSessionId === sessionId
+          // Use the createOrder function from orderAPI to ensure consistency
+          const completedOrder = await createOrder(
+            user.sub, // Use the authenticated user's ID
+            pendingOrder.items,
+            sessionId
           );
 
-          if (!orderExists) {
-            const updatedOrders = [completedOrder, ...existingOrders];
-            localStorage.setItem(storageKey, JSON.stringify(updatedOrders));
-            setOrderCreated(true);
-          }
+          console.log('Order created successfully:', completedOrder);
+          setOrderCreated(true);
 
           // Clean up pending order
           localStorage.removeItem('pendingOrder');
@@ -61,11 +45,13 @@ const Success: React.FC = () => {
         } catch (error) {
           console.error('Error creating order from pending data:', error);
         }
+      } else {
+        console.log('No pending order data found in localStorage');
       }
     };
 
     createOrderFromPending();
-  }, [dispatch, sessionId, user]);
+  }, [dispatch, sessionId, user?.sub]);
 
   return (
     <div className="success-container">
@@ -77,6 +63,7 @@ const Success: React.FC = () => {
           <div className="order-info">
             <p><strong>Session ID:</strong> {sessionId.slice(-8)}</p>
             {orderCreated && <p>✅ Order saved to your history</p>}
+            {user?.sub && <p><strong>User ID:</strong> {user.sub}</p>}
           </div>
         )}
 

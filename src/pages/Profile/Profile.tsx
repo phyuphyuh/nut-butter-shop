@@ -41,11 +41,16 @@ const Profile = () => {
 
   // Fetch user orders
   const loadOrders = async () => {
-    if (!user?.sub) return;
+    if (!user?.sub) {
+      console.log('Cannot load orders - user.sub is missing:', user);
+      return;
+    }
 
+    console.log('Loading orders for user:', user.sub);
     setOrdersLoading(true);
     try {
       const userOrders = await fetchUserOrders(user.sub);
+      console.log('Fetched orders:', userOrders);
       setOrders(userOrders);
     } catch (error) {
       console.error('Failed to load orders:', error);
