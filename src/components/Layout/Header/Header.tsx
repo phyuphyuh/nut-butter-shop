@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import CartIcon from '../../Cart/Cart/CartIcon/CartIcon';
+import UserMenu from '../../UserMenu/UserMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import './Header.scss';
@@ -20,7 +21,10 @@ const Header: React.FC = () => {
           </NavLink>
         </div>
 
-        <CartIcon />
+        <div className="header-actions">
+          <UserMenu />
+          <CartIcon />
+        </div>
 
         <nav className={`menu ${menuOpen ? 'responsive' : ''}`}>
           <ul>
@@ -44,11 +48,7 @@ const Header: React.FC = () => {
                 Contact
               </NavLink>
             </li>
-            <li>
-              <NavLink to="/profile" className={({ isActive }) => isActive ? 'active' : ''}>
-                Profile
-              </NavLink>
-            </li>
+
             <li className="icon">
               <a onClick={toggleMenu}>
                 <FontAwesomeIcon icon={faBars} />

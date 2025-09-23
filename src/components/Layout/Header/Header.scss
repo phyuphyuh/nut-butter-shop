@@ -7,150 +7,170 @@
     margin-top: 20px;
   }
 
-  .nav-logo {
-    text-align: center;
+  .nav {
+    position: relative;
 
-    .logo {
-      font: 50px $logoFont;
-      color: $persianBlue;
-    }
+    .nav-logo {
+      text-align: center;
 
-    .tagline {
-      font: 18px $logoFont;
-      color: $grey;
-    }
-
-    @media (max-width: 767px) {
       .logo {
-        font-size: 50px;
+        font: 50px $logoFont;
+        color: $persianBlue;
       }
+
       .tagline {
-        font-size: 16px;
+        font: 18px $logoFont;
+        color: $grey;
+      }
+
+      @media (max-width: 767px) {
+        .logo {
+          font-size: 50px;
+        }
+        .tagline {
+          font-size: 16px;
+        }
       }
     }
-  }
 
-  .menu {
-    margin-top: 25px;
-
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      font: 24px $navFont;
-
+    .header-actions {
+      position: absolute;
+      top: -50px;
+      right: 1rem;
       display: flex;
-      flex-flow: row wrap;
-      align-items: center;
-      justify-content: center;
+      align-items: end;
+      gap: 1rem;
+      z-index: 10;
 
-      li {
-        padding: 10px;
-        text-align: center;
-        flex: 0 1 110px;
-        height: 50px;
+      @media (max-width: 768px) {
+        right: 0.5rem;
+        gap: 0.5rem;
+      }
+    }
 
-        &.highlight a {
-          color: $persianBlue;
 
-          &:after {
-            border-bottom: 2.3px solid $grey;
-          }
-        }
+    .menu {
+      margin-top: 25px;
 
-        a {
-          color: $orange;
-          text-decoration: none;
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font: 24px $navFont;
 
-          &:after {
-            content: "";
-            display: block;
-            width: 45%;
-            padding-top: 3px;
-            margin: 0 auto;
-            border-bottom: 2.3px solid $persianBlue;
-            border-radius: 13%;
-            opacity: 0.85;
-          }
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: center;
 
-          &.active {
+        li {
+          padding: 10px;
+          text-align: center;
+          flex: 0 1 110px;
+          height: 50px;
+
+          &.highlight a {
             color: $persianBlue;
 
             &:after {
               border-bottom: 2.3px solid $grey;
             }
           }
-        }
 
-        &:hover a {
-          color: $persianBlue;
+          a {
+            color: $orange;
+            text-decoration: none;
 
-          &:after {
-            border-bottom: 3px solid $tanOrange;
+            &:after {
+              content: "";
+              display: block;
+              width: 45%;
+              padding-top: 3px;
+              margin: 0 auto;
+              border-bottom: 2.3px solid $persianBlue;
+              border-radius: 13%;
+              opacity: 0.85;
+            }
+
+            &.active {
+              color: $persianBlue;
+
+              &:after {
+                border-bottom: 2.3px solid $grey;
+              }
+            }
+          }
+
+          &:hover a {
+            color: $persianBlue;
+
+            &:after {
+              border-bottom: 3px solid $tanOrange;
+            }
+          }
+
+          &.icon {
+            display: none;
+
+            a:after {
+              display: none;
+            }
+          }
+
+          @media (max-width: 767px) {
+            display: none;
+
+            &.icon {
+              display: block;
+              position: absolute;
+              left: 0;
+              top: 107px;
+            }
           }
         }
+      }
 
-        &.icon {
-          display: none;
+      &.responsive {
+        position: relative;
+        margin-bottom: -59px;
+
+        .icon {
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+
+        li {
+          display: block;
+          text-align: center;
+          flex: 0 1 100%;
+          background-color: $whiteSmoke;
 
           a:after {
             display: none;
           }
-        }
 
-        @media (max-width: 767px) {
-          display: none;
-
-          &.icon {
-            display: block;
-            position: absolute;
-            left: 0;
-            top: 107px;
+          &:hover {
+            background-color: white;
           }
-        }
-      }
-    }
-
-    &.responsive {
-      position: relative;
-      margin-bottom: -59px;
-
-      .icon {
-        position: absolute;
-        left: 0;
-        top: 0;
-      }
-
-      li {
-        display: block;
-        text-align: center;
-        flex: 0 1 100%;
-        background-color: $whiteSmoke;
-
-        a:after {
-          display: none;
-        }
-
-        &:hover {
-          background-color: white;
         }
       }
     }
   }
 
   hr {
-	margin-top: 35px;
-	margin-bottom: 30px;
-	margin-right: auto;
-	margin-left: auto;
-	width: 22%;
-	border-top: 3px solid $lightGrey;
+    margin-top: 35px;
+    margin-bottom: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 22%;
+    border-top: 3px solid $lightGrey;
 
-	&.top-hr {
-		@media (max-width: 767px) {
-			visibility: hidden;
-			margin-top: 25px;
-		}
-	}
-}
+    &.top-hr {
+      @media (max-width: 767px) {
+        visibility: hidden;
+        margin-top: 25px;
+      }
+    }
+  }
 }

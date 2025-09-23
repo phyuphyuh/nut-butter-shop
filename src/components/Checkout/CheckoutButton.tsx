@@ -4,46 +4,45 @@ import { useCart } from '../../hooks/useCart';
 import { guestCheckout, authenticatedCheckout } from '../../services/checkout';
 
 const CheckoutButton: React.FC = () => {
-  const { user, isAuthenticated, loginWithRedirect } = useAuth(); // Added loginWithRedirect
+  const { user, isAuthenticated, loginWithRedirect } = useAuth();
   const { state } = useCart();
   const [guestEmail, setGuestEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showGuestForm, setShowGuestForm] = useState(false);
+  const [showEmailInput, setShowEmailInput] = useState(false);
 
-  const handleAuthenticatedCheckout = async () => {
-    if (!user || state.items.length === 0) return;
+  const handleCheckout = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+
+    if (state.items.length === 0) return;
 
     setIsLoading(true);
     try {
-      await authenticatedCheckout(state.items, {
-        id: user.sub!,
-        email: user.email!,
-        name: user.name,
-      });
+      if (isAuthenticated && user) {
+        // Authenticated checkout
+        await authenticatedCheckout(state.items, {
+          id: user.sub!,
+          email: user.email!,
+          name: user.name,
+        });
+      } else {
+        // Guest checkout - need email
+        if (!guestEmail) {
+          setShowEmailInput(true);
+          setIsLoading(false);
+          return;
+        }
+        await guestCheckout(state.items, guestEmail);
+      }
     } catch (error) {
       console.error('Checkout failed:', error);
+      // show an error message to the user here
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleLoginAndCheckout = () => {
-    // Trigger Auth0 login
     loginWithRedirect();
-  };
-
-  const handleGuestCheckout = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!guestEmail || state.items.length === 0) return;
-
-    setIsLoading(true);
-    try {
-      await guestCheckout(state.items, guestEmail);
-    } catch (error) {
-      console.error('Guest checkout failed:', error);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   if (state.items.length === 0) {
@@ -53,11 +52,11 @@ const CheckoutButton: React.FC = () => {
   return (
     <div className="checkout-section">
       {isAuthenticated ? (
-        // Authenticated user checkout
+        // Authenticated user - simple checkout
         <div>
           <p>Logged in as: {user?.email}</p>
           <button
-            onClick={handleAuthenticatedCheckout}
+            onClick={handleCheckout}
             disabled={isLoading}
             className="checkout-button authenticated"
           >
@@ -65,26 +64,28 @@ const CheckoutButton: React.FC = () => {
           </button>
         </div>
       ) : (
-        // Guest checkout options
+        // Guest user options
         <div>
           <button
             onClick={handleLoginAndCheckout}
             className="checkout-button login-first"
             disabled={isLoading}
           >
-            Log In & Checkout
+            Login & Checkout
           </button>
 
-          {!showGuestForm ? (
+          <div className="divider">or</div>
+
+          {!showEmailInput ? (
             <button
-              onClick={() => setShowGuestForm(true)}
+              onClick={() => setShowEmailInput(true)}
               className="checkout-button guest"
               disabled={isLoading}
             >
               Continue as Guest
             </button>
           ) : (
-            <form onSubmit={handleGuestCheckout} className="guest-checkout-form">
+            <form onSubmit={handleCheckout} className="guest-checkout-form">
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -92,22 +93,28 @@ const CheckoutButton: React.FC = () => {
                 onChange={(e) => setGuestEmail(e.target.value)}
                 required
                 className="guest-email-input"
+                autoFocus
               />
-              <button
-                type="submit"
-                disabled={isLoading || !guestEmail}
-                className="checkout-button guest-submit"
-              >
-                {isLoading ? 'Processing...' : `Checkout ($${(state.total / 100).toFixed(2)})`}
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowGuestForm(false)}
-                className="checkout-button cancel"
-                disabled={isLoading}
-              >
-                Cancel
-              </button>
+              <div className="form-buttons">
+                <button
+                  type="submit"
+                  disabled={isLoading || !guestEmail}
+                  className="checkout-button guest-submit"
+                >
+                  {isLoading ? 'Processing...' : `Checkout ($${(state.total / 100).toFixed(2)})`}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowEmailInput(false);
+                    setGuestEmail('');
+                  }}
+                  className="checkout-button cancel"
+                  disabled={isLoading}
+                >
+                  Cancel
+                </button>
+              </div>
             </form>
           )}
         </div>

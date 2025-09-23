@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
+import { fetchUserOrders, type Order } from "../../services/orderAPI";
 import LoginButton from "../../components/Auth/LoginButton";
 import LogoutButton from "../../components/Auth/LogoutButton";
 import "./Profile.scss";
@@ -20,12 +21,14 @@ const Profile = () => {
   const { state } = useCart();
   const [accessToken, setAccessToken] = useState<TokenPayload | null>(null);
   const [showTokenDetails, setShowTokenDetails] = useState(false);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
+  const [showOrderHistory, setShowOrderHistory] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
       getAccessTokenSilently()
         .then((token) => {
-          // Decode JWT payload (your existing logic)
           const [, payload] = token.split(".");
           const decoded = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
           setAccessToken(decoded);
@@ -35,6 +38,28 @@ const Profile = () => {
         });
     }
   }, [getAccessTokenSilently, isAuthenticated]);
+
+  // Fetch user orders
+  const loadOrders = async () => {
+    if (!user?.sub) return;
+
+    setOrdersLoading(true);
+    try {
+      const userOrders = await fetchUserOrders(user.sub);
+      setOrders(userOrders);
+    } catch (error) {
+      console.error('Failed to load orders:', error);
+    } finally {
+      setOrdersLoading(false);
+    }
+  };
+
+  const handleViewOrderHistory = () => {
+    if (!showOrderHistory && orders.length === 0) {
+      loadOrders();
+    }
+    setShowOrderHistory(!showOrderHistory);
+  };
 
   if (isLoading) {
     return (
@@ -93,7 +118,7 @@ const Profile = () => {
           <p>Cart Total</p>
         </div>
         <div className="stat-card">
-          <h3>0</h3>
+          <h3>{orders.length}</h3>
           <p>Orders Placed</p>
         </div>
       </div>
@@ -126,8 +151,12 @@ const Profile = () => {
         <div className="profile-section">
           <h2>Quick Actions</h2>
           <div className="action-buttons">
-            <button className="btn-primary" disabled>
-              View Order History
+            <button
+              className="btn-primary"
+              onClick={handleViewOrderHistory}
+              disabled={ordersLoading}
+            >
+              {ordersLoading ? 'Loading...' : showOrderHistory ? 'Hide Order History' : 'View Order History'}
             </button>
             <button className="btn-secondary" disabled>
               Update Profile
@@ -135,6 +164,64 @@ const Profile = () => {
             <LogoutButton />
           </div>
         </div>
+
+        {/* Order History Section */}
+        {showOrderHistory && (
+          <div className="profile-section">
+            <h2>Order History</h2>
+            {ordersLoading ? (
+              <div className="loading">Loading orders...</div>
+            ) : orders.length === 0 ? (
+              <div className="no-orders">
+                <p>No orders found. Start shopping to see your order history!</p>
+              </div>
+            ) : (
+              <div className="orders-list">
+                {orders.map((order) => (
+                  <div key={order.id} className="order-card">
+                    <div className="order-header">
+                      <div className="order-info">
+                        <h3>Order #{order.id.slice(-8)}</h3>
+                        <p className="order-date">
+                          {new Date(order.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
+                      <div className="order-status">
+                        <span className={`status-badge ${order.status}`}>
+                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        </span>
+                        <span className="order-total">
+                          ${(order.total / 100).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="order-items">
+                      {order.items.map((item, index) => (
+                        <div key={index} className="order-item">
+                          <img src={item.image} alt={item.name} className="item-image" />
+                          <div className="item-details">
+                            <span className="item-name">{item.name}</span>
+                            <span className="item-quantity">Qty: {item.quantity}</span>
+                          </div>
+                          <span className="item-price">
+                            ${(item.price / 100).toFixed(2)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Developer Debug Section (Portfolio Feature) */}
         <div className="profile-section">
