@@ -76,6 +76,17 @@ export const authenticatedCheckout = async (cartItems: CartItem[], user: User) =
 
     const { sessionId } = await createCheckoutSession(cartItems, user);
 
+    localStorage.setItem(
+      'pendingOrder',
+      JSON.stringify({
+        sessionId,
+        email: user.email,
+        userId: user.id,
+        items: cartItems,
+        timestamp: new Date().toISOString(),
+      })
+    );
+
     const stripe = await stripePromise;
     if (!stripe) throw new Error('Stripe failed to initialize');
 

@@ -8,14 +8,15 @@ export interface Order {
   status: 'pending' | 'completed' | 'cancelled';
   createdAt: string;
   stripeSessionId?: string;
+  customerEmail?: string;
 }
 
 export const fetchUserOrders = async (userId: string): Promise<Order[]> => {
   try {
-    // Simulate API delay
+    // Simulate API delay for better UX
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    // Mock: Get orders from localStorage for demo
+    // Get orders from localStorage
     const savedOrders = localStorage.getItem(`user_orders_${userId}`);
     return savedOrders ? JSON.parse(savedOrders) : [];
   } catch (error) {
@@ -39,10 +40,32 @@ export const createOrder = async (
     stripeSessionId,
   };
 
-  // Save to localStorage for demo
+  // Save to localStorage
   const existingOrders = await fetchUserOrders(userId);
   const updatedOrders = [order, ...existingOrders];
   localStorage.setItem(`user_orders_${userId}`, JSON.stringify(updatedOrders));
 
   return order;
+};
+
+// Helper function to update order status
+export const updateOrderStatus = (
+  userId: string,
+  stripeSessionId: string,
+  status: 'pending' | 'completed' | 'cancelled'
+) => {
+  try {
+    const savedOrders = localStorage.getItem(`user_orders_${userId}`);
+    if (savedOrders) {
+      const orders: Order[] = JSON.parse(savedOrders);
+      const updatedOrders = orders.map(order =>
+        order.stripeSessionId === stripeSessionId
+          ? { ...order, status }
+          : order
+      );
+      localStorage.setItem(`user_orders_${userId}`, JSON.stringify(updatedOrders));
+    }
+  } catch (error) {
+    console.error('Error updating order status:', error);
+  }
 };

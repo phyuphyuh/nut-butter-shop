@@ -32,6 +32,9 @@ export const handler: Handler = async (event) => {
     const customerEmail = user?.email || guestEmail;
     const isAuthenticated = !!user;
 
+    // Create a unique identifier for the user/customer
+    const clientReferenceId = user?.id || guestEmail || `guest_${Date.now()}`;
+
     const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ['card'],
       line_items: items.map((item) => ({
@@ -41,9 +44,11 @@ export const handler: Handler = async (event) => {
       mode: 'payment',
       success_url: `${process.env.URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.URL}/shop`,
+      client_reference_id: clientReferenceId, // for webhook identification
       metadata: {
         isAuthenticated: isAuthenticated.toString(),
-        userId: user?.id || 'guest',
+        userId: user?.id || guestEmail || 'guest',
+        userName: user?.name || '',
         cartItems: JSON.stringify(items.map(item => ({
           id: item.id,
           name: item.name,
