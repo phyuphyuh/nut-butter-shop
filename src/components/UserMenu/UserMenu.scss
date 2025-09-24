@@ -1,25 +1,25 @@
 @use '../../styles/global.scss' as *;
 
+.menu-login-button {
+  position: relative;
+  display: inline-block;
+  font-size: 26px;
+  color: $royalBlue;
+  opacity: 0.6;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+    background: rgba($royalBlue, 0.1);
+  }
+}
+
+
 .user-menu {
   position: relative;
   display: inline-block;
-
-  .login-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    color: $royalBlue;
-    font-size: 18px;
-    opacity: 0.6;
-    transition: all 0.3s ease;
-
-    &:hover {
-      opacity: 1;
-      background: rgba($royalBlue, 0.1);
-    }
-  }
 
   .user-menu-trigger {
     display: flex;
@@ -73,13 +73,15 @@
     position: absolute;
     top: 100%;
     right: 0;
-    background: white;
+    background: $whiteSmoke;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 8px 2px rgba($grey, 0.4);
     min-width: 220px;
     z-index: 1000;
     margin-top: 0.5rem;
+    padding: 8px;
+    font-family: $textFont;
 
     .user-info {
       padding: 1rem;
@@ -88,44 +90,39 @@
         margin: 0 0 0.25rem 0;
         font-weight: 500;
         font-size: 0.95rem;
-        color: #333;
+        color: $royalBlue;
       }
 
       .user-email {
         margin: 0;
         font-size: 0.85rem;
-        color: #666;
+        color: $grey;
         word-break: break-word;
       }
     }
 
-    hr {
-      margin: 0;
-      border: none;
-      border-top: 1px solid #eee;
-    }
-
     .menu-item {
+      font-family: $primaryFont;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       width: 100%;
       padding: 0.75rem 1rem;
-      background: none;
+      background: rgba($lightGrey, 0.1);
       border: none;
-      text-align: left;
       text-decoration: none;
-      color: #333;
+      color: $royalBlue;
+      text-align: center;
+      display: block;
       cursor: pointer;
-      transition: background 0.3s ease;
 
       &:hover {
-        background: #f5f5f5;
+        background: rgba($royalBlue, 0.1);
       }
 
       &.logout {
-        color: #dc3545;
-        border-top: 1px solid #eee;
+        text-align: center;
+        display: block;
       }
     }
   }

@@ -24,23 +24,11 @@
 
     li.none {
       margin-top: 5px;
-      margin-bottom: -35px;
+      margin-bottom: 15px;
       border-bottom: none;
       z-index: 0;
     }
 
-  }
-
-  .cart-btns {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-
-    button {
-      width: 118px;
-    }
   }
 
   .cart-totals {
@@ -50,7 +38,19 @@
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
-    margin-bottom: -1rem;
+    margin-bottom: 0.5rem;
     padding: 8px;
+  }
+
+  .cart-btns {
+    // display: flex;
+    // flex-direction: row;
+    // align-items: center;
+    // justify-content: space-evenly;
+
+    button {
+      width: 118px;
+      margin-top: 1.2rem;
+    }
   }
 }

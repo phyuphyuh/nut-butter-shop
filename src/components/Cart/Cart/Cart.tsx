@@ -23,17 +23,18 @@ const Cart: React.FC = () => {
         <span>${(total / 100).toFixed(2)}</span>
       </div>
 
-      <button
-        className="clear-cart"
-        onClick={() => dispatch({ type: 'CLEAR_CART' })}
-        disabled={state.items.length === 0}
-      >
-        Clear Cart
-      </button>
-
       <div className="cart-btns">
         <CheckoutButton />
+
+        <button
+          className="clear-cart"
+          onClick={() => dispatch({ type: 'CLEAR_CART' })}
+          disabled={state.items.length === 0}
+        >
+          Clear Cart
+        </button>
       </div>
+
     </div>
   );
 };

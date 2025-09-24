@@ -1,1 +1,161 @@
-@use '../../../styles/global.scss' as *;
+@use '../../styles/global.scss' as *;
+
+.checkout-section {
+  width: 100%;
+  margin-top: 1rem;
+
+  // Authenticated user - single button
+  .authenticated {
+    width: 100%;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: $primaryFont;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #218838, #1ea180);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+  }
+
+  // Guest user options
+  .button-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+
+    .login-first {
+
+      &:hover:not(:disabled) {
+        background: transparent;
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+
+    .guest {
+
+      &:hover:not(:disabled) {
+        border-color: $royalBlue;
+        color: $lightBlue;
+        background: transparent;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  // Guest checkout form
+  .guest-checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+
+    .guest-email-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid $lightGrey;
+      border-radius: 6px;
+      font-family: $primaryFont;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border-color: $lighterBlue;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+      }
+
+      &::placeholder {
+        color: $grey;
+      }
+    }
+
+    .form-buttons {
+      display: flex;
+      gap: 8px;
+
+      .guest-submit {
+        flex: 1;
+        transition: all 0.3s ease;
+
+        &:hover:not(:disabled) {
+          transform: translateY(-1px);
+        }
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
+        }
+      }
+
+      .cancel {
+        flex: 0 0 auto;
+        background: transparent;
+        color: $orange;
+        border: 2px solid $orange;
+        transition: all 0.3s ease;
+
+        &:hover:not(:disabled) {
+          background: $tanOrange;
+          color: white;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .checkout-section {
+    .button-row {
+      gap: 10px;
+    }
+
+    .guest-checkout-form {
+      .form-buttons {
+        gap: 6px;
+
+        .guest-submit {
+          font-size: 13px;
+          padding: 10px 12px;
+        }
+
+        .cancel {
+          font-size: 13px;
+          padding: 10px 12px;
+        }
+      }
+    }
+  }
+}

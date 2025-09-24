@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../hooks/useCart';
 import { guestCheckout, authenticatedCheckout } from '../../services/checkout';
+import './CheckoutButton.scss';
 
 const CheckoutButton: React.FC = () => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth();
@@ -46,7 +47,7 @@ const CheckoutButton: React.FC = () => {
   };
 
   if (state.items.length === 0) {
-    return <p>Your cart is empty</p>;
+    return null;
   }
 
   return (
@@ -54,7 +55,6 @@ const CheckoutButton: React.FC = () => {
       {isAuthenticated ? (
         // Authenticated user - simple checkout
         <div>
-          <p>Logged in as: {user?.email}</p>
           <button
             onClick={handleCheckout}
             disabled={isLoading}
@@ -65,7 +65,7 @@ const CheckoutButton: React.FC = () => {
         </div>
       ) : (
         // Guest user options
-        <div>
+        <div className="button-row">
           <button
             onClick={handleLoginAndCheckout}
             className="checkout-button login-first"
@@ -73,8 +73,6 @@ const CheckoutButton: React.FC = () => {
           >
             Login & Checkout
           </button>
-
-          <div className="divider">or</div>
 
           {!showEmailInput ? (
             <button

@@ -26,7 +26,7 @@ const Success: React.FC = () => {
       <div className="success-confirmation">
         <h2>🎉 Payment Successful!</h2>
         <p>Thank you for your order!</p>
-         <p>Session ID: {sessionId}</p>
+        <p className="success-sessionID">Session ID: {sessionId}</p>
 
         <div className="success-actions">
           {isAuthenticated && user ? (

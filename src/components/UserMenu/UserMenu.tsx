@@ -24,13 +24,13 @@ const UserMenu: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <button
+      <div
         onClick={loginWithRedirect}
-        className="login-button"
+        className="menu-login-button"
         aria-label="Login"
       >
         <FontAwesomeIcon icon={faUser} />
-      </button>
+      </div>
     );
   }
 
@@ -57,7 +57,7 @@ const UserMenu: React.FC = () => {
             <p className="user-name">{user?.name || 'User'}</p>
             <p className="user-email">{user?.email}</p>
           </div>
-          <hr />
+
           <Link
             to="/profile"
             className="menu-item"

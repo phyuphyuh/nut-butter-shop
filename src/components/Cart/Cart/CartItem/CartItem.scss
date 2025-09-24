@@ -57,12 +57,15 @@
 
   .remove-item {
     margin: 0 10px;
+    padding-top: 20px;
     cursor: pointer;
     font-family: $navFont;
     font-size: 10px;
-    opacity: 0.4;
+    opacity: 1;
     text-decoration: underline;
-
+    background: none;
+    border: none;
+    color: $jet;
 
     &:hover {
       opacity: 0.8;
