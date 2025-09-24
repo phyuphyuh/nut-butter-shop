@@ -39,8 +39,39 @@
     .success-sessionID {
       font-size: 12px;
       color: $grey;
+      word-wrap: break-word;
+    }
+
+    .login-alternative {
+      margin-top: 16px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: $grey;
+    }
+
+    button {
+      margin: 8px auto;
+    }
+
+    .continue-shopping {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 20px;
+      font: 16px $primaryFont;
+      color: $lightBlue;
+      background-color: transparent;
+      border: 2px solid $royalBlue;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $whiteSmoke;
+        background-color: $royalBlue;
+      }
     }
   }
-
-
 }

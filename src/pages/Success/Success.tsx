@@ -45,10 +45,19 @@ const Success: React.FC = () => {
               <p className="account-prompt">
                 <strong>Create an account</strong> to track all your orders and access your complete purchase history from Stripe.
               </p>
-              <LoginButton />
+              <LoginButton mode="signup">
+                Create Account
+              </LoginButton>
+
+              <p className="login-alternative">
+                Already have an account? {" "}
+                <LoginButton mode="login">
+                  Log in
+                </LoginButton>
+              </p>
             </div>
           )}
-          <Link to="/shop" className="btn-secondary">Continue Shopping</Link>
+          <Link to="/shop" className="continue-shopping">Continue Shopping</Link>
         </div>
       </div>
     </div>
