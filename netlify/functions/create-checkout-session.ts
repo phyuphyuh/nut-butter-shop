@@ -81,6 +81,7 @@ export const handler: Handler = async (event) => {
       },
       body: JSON.stringify({
         sessionId: session.id,
+        customerId: session.customer,
         isAuthenticated,
       }),
     };

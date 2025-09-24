@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuth } from "../../hooks/useAuth";
 import { useCart } from "../../hooks/useCart";
-import { fetchUserOrders, type Order } from "../../services/orderAPI";
+import { fetchUserOrdersFromStripe } from "../../services/stripeAPI";
 import LoginButton from "../../components/Auth/LoginButton";
 import LogoutButton from "../../components/Auth/LogoutButton";
 import "./Profile.scss";
@@ -15,15 +15,31 @@ interface TokenPayload extends Record<string, unknown> {
   scope: string;
 }
 
+interface StripeOrder {
+  id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  created: number;
+  customer_email: string;
+  items: Array<{
+    name: string;
+    quantity: number;
+    amount: number;
+    images: string[];
+  }>;
+}
+
 const Profile = () => {
   const { isLoading, user, getAccessTokenSilently } = useAuth0();
   const { isAuthenticated } = useAuth();
   const { state } = useCart();
   const [accessToken, setAccessToken] = useState<TokenPayload | null>(null);
   const [showTokenDetails, setShowTokenDetails] = useState(false);
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<StripeOrder[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [showOrderHistory, setShowOrderHistory] = useState(false);
+  const [customerId, setCustomerId] = useState<string>('');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -39,21 +55,35 @@ const Profile = () => {
     }
   }, [getAccessTokenSilently, isAuthenticated]);
 
-  // Fetch user orders
-  const loadOrders = async () => {
-    if (!user?.sub) {
-      console.log('Cannot load orders - user.sub is missing:', user);
+  // Get customer ID from localStorage (stored during checkout)
+  useEffect(() => {
+    if (user?.sub) {
+      const storedCustomerId = localStorage.getItem(`stripe_customer_${user.sub}`);
+      if (storedCustomerId) {
+        setCustomerId(storedCustomerId);
+        console.log('Found stored customer ID:', storedCustomerId);
+      } else {
+        console.log('No stored customer ID found for user:', user.sub);
+      }
+    }
+  }, [user?.sub]);
+
+  // Fetch user orders from Sripe
+  const loadOrdersFromStripe = async () => {
+    if (!user?.email) {
+      console.log('Cannot load orders - user email is missing');
       return;
     }
 
-    console.log('Loading orders for user:', user.sub);
+    console.log('Loading orders from Stripe for user:', user.email);
     setOrdersLoading(true);
     try {
-      const userOrders = await fetchUserOrders(user.sub);
-      console.log('Fetched orders:', userOrders);
-      setOrders(userOrders);
+      const stripeOrders = await fetchUserOrdersFromStripe(user.email, customerId || undefined);
+      console.log('Fetched orders from Stripe:', stripeOrders);
+      setOrders(stripeOrders);
     } catch (error) {
-      console.error('Failed to load orders:', error);
+      console.error('Failed to load orders from Stripe:', error);
+      setOrders([]);
     } finally {
       setOrdersLoading(false);
     }
@@ -61,7 +91,7 @@ const Profile = () => {
 
   const handleViewOrderHistory = () => {
     if (!showOrderHistory && orders.length === 0) {
-      loadOrders();
+      loadOrdersFromStripe();
     }
     setShowOrderHistory(!showOrderHistory);
   };
@@ -128,30 +158,22 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="profile-sections">
-        <div className="profile-section">
-          <h2>Account Information</h2>
-          <div className="account-details">
-            <div className="detail-row">
-              <span className="label">Name:</span>
-              <span className="value">{user?.name || "Not provided"}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">Email:</span>
-              <span className="value">{user?.email}</span>
-            </div>
-            <div className="detail-row">
-              <span className="label">Email Verified:</span>
-              <span className={`value ${user?.email_verified ? 'verified' : 'unverified'}`}>
-                {user?.email_verified ? "✅ Verified" : "❌ Unverified"}
-              </span>
-            </div>
-            <div className="detail-row">
-              <span className="label">Account ID:</span>
-              <span className="value user-id">{user?.sub}</span>
-            </div>
-          </div>
+      <div className="profile-actions">
+        <h2>Quick Actions</h2>
+        <div className="action-buttons">
+          <button
+            className="btn-primary"
+            onClick={handleViewOrderHistory}
+            disabled={ordersLoading || !user?.email}
+          >
+            {ordersLoading ? 'Loading...' : showOrderHistory ? 'Hide Order History' : 'View Order History'}
+          </button>
+          <button className="btn-secondary" disabled>
+            Update Profile
+          </button>
+          <LogoutButton />
         </div>
+      </div>
 
         <div className="profile-section">
           <h2>Quick Actions</h2>
@@ -170,15 +192,19 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Order History Section */}
+        {/* Order History Section - Fetched from Stripe */}
         {showOrderHistory && (
           <div className="profile-section">
             <h2>Order History</h2>
+            <p className="order-source">Showing real transaction data from Stripe</p>
             {ordersLoading ? (
-              <div className="loading">Loading orders...</div>
+              <div className="loading">Loading orders from Stripe...</div>
             ) : orders.length === 0 ? (
               <div className="no-orders">
                 <p>No orders found. Start shopping to see your order history!</p>
+                <p className="help-text">
+                  Orders are fetched directly from Stripe's transaction records.
+                </p>
               </div>
             ) : (
               <div className="orders-list">
@@ -188,7 +214,7 @@ const Profile = () => {
                       <div className="order-info">
                         <h3>Order #{order.id.slice(-8)}</h3>
                         <p className="order-date">
-                          {new Date(order.createdAt).toLocaleDateString('en-US', {
+                          {new Date(order.created * 1000).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'long',
                             day: 'numeric',
@@ -196,30 +222,52 @@ const Profile = () => {
                             minute: '2-digit'
                           })}
                         </p>
+                        <p className="order-email">Customer: {order.customer_email}</p>
                       </div>
                       <div className="order-status">
                         <span className={`status-badge ${order.status}`}>
-                          {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                          {order.status === 'paid' ? 'Completed' :
+                          order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                         </span>
                         <span className="order-total">
-                          ${(order.total / 100).toFixed(2)}
+                          ${(order.amount / 100).toFixed(2)} {order.currency.toUpperCase()}
                         </span>
                       </div>
                     </div>
 
                     <div className="order-items">
-                      {order.items.map((item, index) => (
-                        <div key={index} className="order-item">
-                          <img src={item.image} alt={item.name} className="item-image" />
-                          <div className="item-details">
-                            <span className="item-name">{item.name}</span>
-                            <span className="item-quantity">Qty: {item.quantity}</span>
+                      {order.items.length > 0 ? (
+                        order.items.map((item, index) => (
+                          <div key={index} className="order-item">
+                            <img
+                              src={item.images[0] || '/placeholder.jpg'}
+                              alt={item.name}
+                              className="item-image"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = '/placeholder.jpg';
+                              }}
+                            />
+                            <div className="item-details">
+                              <span className="item-name">{item.name}</span>
+                              <span className="item-quantity">Qty: {item.quantity}</span>
+                            </div>
+                            <span className="item-price">
+                              ${(item.amount / 100).toFixed(2)}
+                            </span>
                           </div>
-                          <span className="item-price">
-                            ${(item.price / 100).toFixed(2)}
-                          </span>
+                        ))
+                      ) : (
+                        <div className="no-items">
+                          <p>No item details available for this order.</p>
                         </div>
-                      ))}
+                      )}
+                    </div>
+
+                    {/* Stripe Session ID for debugging */}
+                    <div className="order-metadata">
+                      <small className="stripe-session-id">
+                        Stripe Session: {order.id}
+                      </small>
                     </div>
                   </div>
                 ))}
@@ -255,18 +303,25 @@ const Profile = () => {
                   <pre className="token-display">
                     {JSON.stringify(accessToken, null, 2)}
                   </pre>
-                  <div className="token-info">
-                    <p><strong>Expires:</strong> {new Date(accessToken.exp * 1000).toLocaleString()}</p>
-                    <p><strong>Issued:</strong> {new Date(accessToken.iat * 1000).toLocaleString()}</p>
-                    <p><strong>Scopes:</strong> {accessToken.scope}</p>
-                  </div>
                 </div>
               )}
+
+              <div className="token-section">
+                <h3>Stripe Integration Info</h3>
+                <pre className="token-display">
+                  {JSON.stringify({
+                    customerIdStored: !!customerId,
+                    customerId: customerId || 'Not found',
+                    userEmail: user?.email,
+                    ordersCount: orders.length,
+                    lastOrdersFetch: ordersLoading ? 'Loading...' : 'Ready'
+                  }, null, 2)}
+                </pre>
+              </div>
             </div>
           )}
         </div>
       </div>
-    </div>
   );
 };
 

@@ -1,77 +1,52 @@
-import { useEffect, useState } from "react";
-import { useSearchParams, Link } from 'react-router-dom';
-import { useAuth } from "../../hooks/useAuth";
+import { useEffect } from "react";
 import { useCart } from "../../hooks/useCart";
-import { createOrder } from "../../services/orderAPI";
+import { useSearchParams, Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "../../components/Auth/LoginButton";
 import './Success.scss';
 
 const Success: React.FC = () => {
   const { dispatch } = useCart();
-  const { user } = useAuth();
   const [searchParams] = useSearchParams();
-  const [orderCreated, setOrderCreated] = useState(false);
   const sessionId = searchParams.get('session_id');
+  const { user, isAuthenticated } = useAuth0();
 
   useEffect(() => {
-    const createOrderFromPending = async () => {
-      // Clear the cart
-      dispatch({ type: "CLEAR_CART" });
+    // Clear the cart since order completed successfully
+    dispatch({ type: "CLEAR_CART" });
 
-      if (!sessionId || !user?.sub) {
-        console.log('Missing sessionId or user.sub:', { sessionId, userSub: user?.sub });
-        return;
-      }
+    // Clean up pending order from localStorage
+    localStorage.removeItem('pendingOrder');
 
-      // Get pending order data that was saved during checkout
-      const pendingOrderData = localStorage.getItem('pendingOrder');
-
-      if (pendingOrderData) {
-        try {
-          const pendingOrder = JSON.parse(pendingOrderData);
-
-          // Use the createOrder function from orderAPI to ensure consistency
-          const completedOrder = await createOrder(
-            user.sub, // Use the authenticated user's ID
-            pendingOrder.items,
-            sessionId
-          );
-
-          console.log('Order created successfully:', completedOrder);
-          setOrderCreated(true);
-
-          // Clean up pending order
-          localStorage.removeItem('pendingOrder');
-
-        } catch (error) {
-          console.error('Error creating order from pending data:', error);
-        }
-      } else {
-        console.log('No pending order data found in localStorage');
-      }
-    };
-
-    createOrderFromPending();
-  }, [dispatch, sessionId, user?.sub]);
+    // Order history will be fetched from Stripe when user views profile
+  }, [dispatch]);
 
   return (
     <div className="success-container">
       <div className="success-confirmation">
         <h2>🎉 Payment Successful!</h2>
         <p>Thank you for your order!</p>
-
-        {sessionId && (
-          <div className="order-info">
-            <p><strong>Session ID:</strong> {sessionId.slice(-8)}</p>
-            {orderCreated && <p>✅ Order saved to your history</p>}
-            {user?.sub && <p><strong>User ID:</strong> {user.sub}</p>}
-          </div>
-        )}
+         <p>Session ID: {sessionId}</p>
 
         <div className="success-actions">
-          {user ? (
-            <Link to="/profile" className="btn-primary">View Order History</Link>
+          {isAuthenticated && user ? (
+            <>
+              <Link to="/profile" className="btn-primary">
+                View Your Order History
+              </Link>
+              <p className="order-note">
+                Your order details are now available in your profile.
+                We fetch your complete transaction history directly from Stripe!
+              </p>
+            </>
           ) : (
-            <p>Create an account to track your orders!</p>
+            <div className="guest-message">
+              <p>Your order was processed successfully!</p>
+              <p className="account-prompt">
+                <strong>Create an account</strong> to track all your orders and access your complete purchase history from Stripe.
+              </p>
+              <LoginButton />
+            </div>
           )}
           <Link to="/shop" className="btn-secondary">Continue Shopping</Link>
         </div>
