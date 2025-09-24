@@ -41,7 +41,7 @@ This project demonstrates how to take a classic vanilla JS project and modernize
 ## 🛠️ Tech Stack
 
 **Frontend:**
-- React 18
+- React 19
 - TypeScript
 - Vite
 - React Router
