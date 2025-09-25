@@ -31,7 +31,7 @@ const Success: React.FC = () => {
         <div className="success-actions">
           {isAuthenticated && user ? (
             <>
-              <Link to="/profile" className="btn-primary">
+              <Link to="/profile" className="view-order-btn">
                 View Your Order History
               </Link>
               <p className="order-note">

@@ -56,6 +56,24 @@
       margin: 8px auto;
     }
 
+    .view-order-btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 10px 20px;
+      font: 16px $primaryFont;
+      color: $lightBlue;
+      background-color: transparent;
+      border: 2px solid $royalBlue;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+
+      &:hover {
+        color: $whiteSmoke;
+        background-color: $royalBlue;
+      }
+    }
+
     .continue-shopping {
       display: inline-block;
       margin-top: 16px;
